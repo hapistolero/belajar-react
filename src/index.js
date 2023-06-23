@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
-import { HelloComponent } from './component/hellocomponent';
-import { StatefulCompo } from './container/statefulcompo';
+import  Home from './container/home/home';
 import reportWebVitals from './reportWebVitals';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <HelloComponent />
+    <Home />
   </React.StrictMode>
 );
 
