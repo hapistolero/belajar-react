@@ -1,4 +1,5 @@
 import React, { Component }  from "react";
+import { useNavigate } from "react-router";
 import './blogpost.css'
 import { BlogCard } from "../../component/blogcard/blogcard";
 import axios from 'axios'
@@ -13,6 +14,7 @@ export default class Blogpost extends Component{
         isUp:false
     }
 
+   
     getPost = () =>{
         axios.get('http://localhost:3005/posts')
         .then((res)=>{
@@ -94,6 +96,11 @@ this.putData()
 
     }
 
+    handleDetail = (id) =>{
+      
+        console.log(this.props.navigation)
+        
+     }
     componentDidMount(){
         // fetch('https://jsonplaceholder.typicode.com/posts')
         // .then(response => response.json())
@@ -102,8 +109,11 @@ this.putData()
         //         post: json
         //     }))
 this.getPost()
+
        
     }
+
+  
 
     render(){
         return(
@@ -124,7 +134,7 @@ this.getPost()
 
 {this.state.post.map(post =>{
 
-    return  <BlogCard key={post.id} data={post} remove={this.handleRemove} update={this.handleUpdate}/>
+    return  <BlogCard key={post.id} data={post} remove={this.handleRemove} update={this.handleUpdate} toDetail={this.handleDetail}/>
 }
 
     )}
