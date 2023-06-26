@@ -1,10 +1,11 @@
 import React, { Component } from "react";
-
-export default class ProductCard  extends Component {
+import { connect } from "react-redux";
+import ActionType from "../../reducers/globalactiontype";
+ class ProductCard  extends Component {
     
-    state={
-        order:0
-    }
+    // state={
+    //     order:0
+    // }
 
     handleCounterChange = (newvalue) =>{
         this.props.onCounterChange(newvalue)
@@ -33,13 +34,29 @@ export default class ProductCard  extends Component {
             }
 
             render(){
+                console.log(this.props)
                 return(
                     <div>
-                    <button onClick={this.handlePlus}>Tambah</button>
-                    <span>{this.state.order}</span>
-                    <button onClick={this.handleMinus}>Kurang</button>
+                    <button onClick={this.props.handlePlus}>Tambah</button>
+                    <span>{this.props.order}</span>
+                    <button onClick={this.props.handleMinus}>Kurang</button>
                 </div>
                 )
             }
    
     }
+
+    const mapStateToProps = (state)=>{
+        return {
+            order:state.totalOrder
+        }
+    }
+
+    const mapDispatchToProps =(dispatch)=>{
+        return{
+            handlePlus:()=>dispatch({type: ActionType.ADD_ORDER}),
+            handleMinus:()=>dispatch({type:ActionType.MINUS_ORDER})
+        }
+    }
+
+    export default connect(mapStateToProps,mapDispatchToProps)(ProductCard)

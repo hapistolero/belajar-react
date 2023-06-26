@@ -1,6 +1,7 @@
 import React, { Component } from "react";
+import {connect} from 'react-redux'
 
-export default class LifeCycle extends Component{
+ class LifeCycle extends Component{
 
     // constructor
     constructor(props){
@@ -61,7 +62,19 @@ changeCount=()=>{
 }
     render(){
         return(
-            <button onClick={this.changeCount}>Component Button {this.state.count}</button>
+            <>
+             <button onClick={this.changeCount}>Component Button {this.state.count}</button>
+            <p>totalOrder :{this.props.order}</p>
+            </>
+           
         )
     }
 }
+
+const mapStateToProps = (state)=>{
+    return {
+        order:state.totalOrder
+    }
+}
+
+export default connect(mapStateToProps)(LifeCycle)

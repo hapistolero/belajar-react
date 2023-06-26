@@ -1,28 +1,37 @@
 import React, {Component, Fragment} from "react";
 import ProductCard  from "../../component/productcard/productcard";
+import { connect } from "react-redux";
 
-export default class Product extends Component {
-    state={
-        order:0
-    }
+class Product extends Component {
+    // state={
+    //     order:0
+    // }
 
    
 
-    handleCounterChange = (NewValue) => {
-       this.setState({
-        order:NewValue
-       }) 
-    }
+    // handleCounterChange = (NewValue) => {
+    //    this.setState({
+    //     order:NewValue
+    //    }) 
+    // }
     render(){        
         return(
             <Fragment>
             <div>
-                Troli : {this.state.order}
+                Troli : {this.props.order}
             </div>
 
             
-          <ProductCard onCounterChange={(value)=> this.handleCounterChange(value)}/>
+          <ProductCard />
             </Fragment>
         )
     }
 }
+
+const mapStateToProps = (state)=>{
+    return {
+        order:state.totalOrder
+    }
+}
+
+export default connect(mapStateToProps)(Product)
