@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import {connect} from 'react-redux'
-
- class LifeCycle extends Component{
+import { RootContext } from "../../container/home/home";
+import { GlobalConsumer } from "../../context/context"; 
+class LifeCycle extends Component{
 
     // constructor
     constructor(props){
@@ -62,10 +63,12 @@ changeCount=()=>{
 }
     render(){
         return(
+
             <>
-             <button onClick={this.changeCount}>Component Button {this.state.count}</button>
-            <p>totalOrder :{this.props.order}</p>
-            </>
+            <button onClick={this.changeCount}>Component Button {this.state.count}</button>
+           <p>totalOrder :{this.props.state.totalOrder}</p>
+           </>
+           
            
         )
     }
@@ -73,8 +76,10 @@ changeCount=()=>{
 
 const mapStateToProps = (state)=>{
     return {
+        
         order:state.totalOrder
     }
 }
 
-export default connect(mapStateToProps)(LifeCycle)
+// export default connect(mapStateToProps)(LifeCycle)
+export default GlobalConsumer(LifeCycle)

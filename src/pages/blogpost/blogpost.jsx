@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 import './blogpost.css'
 import { BlogCard } from "../../component/blogcard/blogcard";
 import axios from 'axios'
+import API from "../../services";
 export default class Blogpost extends Component{
     state ={
         post:[],
@@ -11,17 +12,25 @@ export default class Blogpost extends Component{
             title:'',
             body:''
         },
-        isUp:false
+        isUp:false,
+        comments: []
+
     }
 
    
     getPost = () =>{
-        axios.get('http://localhost:3005/posts')
-        .then((res)=>{
+        API.getNewsBlog().then(res =>{
             this.setState({
-                        post: res.data
-                    })
+                post:res
+            })
         })
+
+        // API.getComments().then(res =>{
+        //     this.setState({
+        //         comments:res
+        //     })
+        // })
+       
     }
 
     handleFormChange = (event) =>{
@@ -53,18 +62,28 @@ this.putData()
 
 
     postData= ()=>{
-        axios.post(`http://localhost:3005/posts`,this.state.form)
-        .then((res)=> {console.log(res)
-            this.getPost()
-        },
+        API.postNewBlog(this.state.form).then((res)=>{
+            this.getPost(
+                this.setState({
+                    form:{
+                        id:1,
+                        title:'',
+                        body: '',
+
+                    }
+                })
+            )
+        })
         
-        (err)=>
-        console.log(err))
     }
 
     handleRemove =(data)=>{
-       axios.delete(`http://localhost:3005/posts/${data}`)
-       .then((res) => this.getPost())
+        API.deleteBlog(data).then(
+            res => {
+                this.getPost()
+            }
+        )
+   
     }
 
     handleUpdate = (data) =>{
@@ -76,9 +95,7 @@ this.putData()
     }
 
     putData = () =>{
-
-        axios.put(`http://localhost:3005/posts/${this.state.form.id}`,this.state.form)
-        .then((res)=> {console.log(res)
+        API.updateNewBlog(this.state.form, this.state.form.id).then((res)=>{
             this.getPost()
             this.setState({
                 isUp:false,
@@ -88,13 +105,12 @@ this.putData()
                     body:''
                 },
 
-            })
-        },
 
-        (err)=>
-        console.log(err))
-
+        })
+        })
     }
+        
+    
 
     handleDetail = (id) =>{
       
@@ -138,6 +154,11 @@ this.getPost()
 }
 
     )}
+    {/* {
+        this.state.comments.map(com =>{
+            return <p>{com.email}</p>
+        })
+    } */}
           
             </>
         )
